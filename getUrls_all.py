@@ -2,10 +2,8 @@ import os
 import sqlite3
 
 history_path=r"C:\Users\linsi\AppData\Local\CentBrowser\User Data\Default\History"
-already_path=r"D:\getUcdrsUrls\already_buy.txt"
-today_path=r"D:\AllDowns\today_buy.txt"
-
-already_path2=r"D:\compare_buy\already_buy.txt"
+already_path=r"D:\getUcdrsUrls\already_buy2.txt"
+today_path=r"D:\AllDowns\today_buy222.txt"
 
 def get_urls():
 # 数据库操作，得到历史数据中所有的网址
@@ -13,7 +11,7 @@ def get_urls():
     cursor=c.cursor()
     pattern_str='http://book.ucdrs.superlib.net/views/specific/%'
     # 只取出5天之内的，这样规模会小一些...
-    select_statement="SELECT urls.url FROM urls,visits WHERE date(last_visit_time/1000000-11644473600,'unixepoch','localtime')>date('now','-1 days') AND urls.id=visits.url AND urls.url LIKE '{}' ORDER BY last_visit_time".format(pattern_str)
+    select_statement="SELECT urls.url FROM urls,visits WHERE urls.id=visits.url AND urls.url LIKE '{}' ORDER BY last_visit_time".format(pattern_str)
     # select_statement="SELECT urls.url FROM urls,visits WHERE urls.id=visits.url AND urls.url LIKE '{}' AND datetime('now','-1 day','last_visit_time')>1".format(pattern_str)
     print(select_statement)
     cursor.execute(select_statement)
@@ -36,11 +34,6 @@ def get_urls():
     new_urls_s="\n".join(new_urls)
 
     with open(already_path,"a",encoding="utf-8") as f:
-        f.write("\n\n")
-        f.write(new_urls_s)
-        f.write("\n")
-    
-    with open(already_path2,"a",encoding="utf-8") as f:
         f.write("\n\n")
         f.write(new_urls_s)
         f.write("\n")
